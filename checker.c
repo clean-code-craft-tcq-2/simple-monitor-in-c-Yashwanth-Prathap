@@ -1,21 +1,62 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
+
+typedef struct {  
+  char parameterName[20];
+  float minThreshold;
+  float maxThreshold; 
+} BatteryParamInfo;
+
+BatteryParamInfo paramInfo[2];
+
+void PopulateparamInfo(){
+  
+	strcpy(paramInfo[0].parameterName,"Temperature");
+	paramInfo[0].minThreshold = 0;
+	paramInfo[0].maxThreshold = 45;
+	
+	strcpy(paramInfo[1].parameterName, "SOC");
+	paramInfo[1].minThreshold = 20;
+	paramInfo[1].maxThreshold = 80;
+	
+	strcpy(paramInfo[2].parameterName, "Charge Rate");  
+	paramInfo[2].minThreshold = 0.0;
+	paramInfo[2].maxThreshold = 0.8;
+}
+
+void printToConsole(char message[])
+{
+printf(message);
+}
+
+int checkparamlimits(char parameter[], float value, float minvalue, float maxvalue){
+if(value < minvalue){
+	printToConsole(strcat(parameter , "is less than lowerlimit \n"));
+	return 0;
+	}
+else if( value > maxvalue){
+	printToConsole(strcat(parameter , "exceeds upperlimit \n"));
+	return 0;
+	}
+else {
+	return 1;
+	}
+}
 
 int batteryIsOk(float temperature, float soc, float chargeRate) {
-  if(temperature < 0 || temperature > 45) {
-    printf("Temperature out of range!\n");
-    return 0;
-  } else if(soc < 20 || soc > 80) {
-    printf("State of Charge out of range!\n");
-    return 0;
-  } else if(chargeRate > 0.8) {
-    printf("Charge Rate out of range!\n");
-    return 0;
-  }
-  return 1;
+int output;
+output = checkparamlimits (paramInfo[0].parameterName, temperature,paramInfo[0].minThreshold,paramInfo[0].maxThreshold)&
+checkparamlimits (paramInfo[1].parameterName, soc,paramInfo[1].minThreshold,paramInfo[1].maxThreshold) &
+checkparamlimits (paramInfo[2].parameterName, chargeRate,paramInfo[2].minThreshold,paramInfo[2].maxThreshold);
+
+return output;
 }
 
 int main() {
+  PopulateparamInfo();
   assert(batteryIsOk(25, 70, 0.7));
-  assert(!batteryIsOk(50, 85, 0));
+  assert(!batteryIsOk(50, 60, 0.7));
+  assert(!batteryIsOk(30, 85, 0.1));
+  assert(!batteryIsOk(25, 70, 0.9));
 }
