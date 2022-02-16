@@ -53,7 +53,7 @@ else {
 }*/
 
 
-int checkparamlimits(BatteryParameterInfo parameterInfo,  float value){
+int checkparamlimits(BatteryParamInfo parameterInfo,  float value){
 	
 if(value < parameterInfo.minimumThreshold){
 	printToConsole(strcat(paramInfo.parameterName , "is less than lowerlimit \n"));
