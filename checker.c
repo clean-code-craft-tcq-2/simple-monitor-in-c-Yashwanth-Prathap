@@ -55,11 +55,11 @@ else {
 
 int checkparamlimits(BatteryParamInfo parameterInfo,  float value){
 	
-if(value < parameterInfo.minimumThreshold){
+if(value < parameterInfo.minThreshold){
 	printToConsole(strcat(paramInfo.parameterName , "is less than lowerlimit \n"));
 	return 0;
 	}
-else if( value > paramInfo.maximumThreshold){
+else if( value > paramInfo.maxThreshold){
 	printToConsole(strcat(paramInfo.parameterName , "exceeds upperlimit \n"));
 	return 0;
 	}
