@@ -56,11 +56,11 @@ else {
 int checkparamlimits(BatteryParameterInfo parameterInfo,  float value){
 	
 if(value < parameterInfo.minimumThreshold){
-	printToConsole(strcat(parameterInfo.parameterName , "is less than lowerlimit \n"));
+	printToConsole(strcat(paramInfo.parameterName , "is less than lowerlimit \n"));
 	return 0;
 	}
-else if( value > parameterInfo.maximumThreshold){
-	printToConsole(strcat(parameterInfo.parameterName , "exceeds upperlimit \n"));
+else if( value > paramInfo.maximumThreshold){
+	printToConsole(strcat(paramInfo.parameterName , "exceeds upperlimit \n"));
 	return 0;
 	}
 else {
@@ -72,9 +72,9 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
 int output;
 
 	
-output = checkparamlimits (parameterInfo[0], temperature)&
-checkparamlimits (parameterInfo[1], soc) &
-checkparamlimits (parameterInfo[2], chargeRate);
+output = checkparamlimits (paramInfo[0], temperature)&
+checkparamlimits (paramInfo[1], soc) &
+checkparamlimits (paramInfo[2], chargeRate);
 
 return output;
 }
