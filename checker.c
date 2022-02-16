@@ -6,23 +6,31 @@ typedef struct {
   char parameterName[20];
   float minThreshold;
   float maxThreshold; 
+  float warningLimitHigh;
+  float warningLimitLow;
 } BatteryParamInfo;
 
-BatteryParamInfo paramInfo[2];
+BatteryParamInfo paramInfo[3];
 
 void PopulateparamInfo(){
   
 	strcpy(paramInfo[0].parameterName,"Temperature");
 	paramInfo[0].minThreshold = 0;
 	paramInfo[0].maxThreshold = 45;
+	paramInfo[0].warningLimitHigh = 45;
+	paramInfo[0].warningLimitHigh = 45;
 	
 	strcpy(paramInfo[1].parameterName, "SOC");
 	paramInfo[1].minThreshold = 20;
 	paramInfo[1].maxThreshold = 80;
+	paramInfo[0].warningLimitHigh = 45;
+	paramInfo[0].warningLimitHigh = 45;
 	
 	strcpy(paramInfo[2].parameterName, "Charge Rate");  
 	paramInfo[2].minThreshold = 0.0;
 	paramInfo[2].maxThreshold = 0.8;
+	paramInfo[0].warningLimitHigh = 45;
+	paramInfo[0].warningLimitHigh = 45;
 }
 
 void printToConsole(char message[])
@@ -30,7 +38,7 @@ void printToConsole(char message[])
 printf(message);
 }
 
-int checkparamlimits(char parameter[], float value, float minvalue, float maxvalue){
+/*int checkparamlimits(char parameter[], float value, float minvalue, float maxvalue){
 if(value < minvalue){
 	printToConsole(strcat(parameter , "is less than lowerlimit \n"));
 	return 0;
@@ -42,13 +50,31 @@ else if( value > maxvalue){
 else {
 	return 1;
 	}
+}*/
+
+
+int checkparamlimits(BatteryParameterInfo parameterInfo,  float value){
+	
+if(value < parameterInfo.minimumThreshold){
+	printToConsole(strcat(parameterInfo.parameterName , "is less than lowerlimit \n"));
+	return 0;
+	}
+else if( value > parameterInfo.maximumThreshold){
+	printToConsole(strcat(parameterInfo.parameterName , "exceeds upperlimit \n"));
+	return 0;
+	}
+else {
+	return 1;
+	}
 }
 
 int batteryIsOk(float temperature, float soc, float chargeRate) {
 int output;
-output = checkparamlimits (paramInfo[0].parameterName, temperature,paramInfo[0].minThreshold,paramInfo[0].maxThreshold)&
-checkparamlimits (paramInfo[1].parameterName, soc,paramInfo[1].minThreshold,paramInfo[1].maxThreshold) &
-checkparamlimits (paramInfo[2].parameterName, chargeRate,paramInfo[2].minThreshold,paramInfo[2].maxThreshold);
+
+	
+output = checkparamlimits (parameterInfo[0], temperature)&
+checkparamlimits (parameterInfo[1], soc) &
+checkparamlimits (parameterInfo[2], chargeRate);
 
 return output;
 }
