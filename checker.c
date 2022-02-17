@@ -80,7 +80,7 @@ setMessageToPrint (char parameter[], int parameterStatus){
 
 
 
-int checkparamlimits(BatteryParameterInfo parameterInfo,  float value){	
+int checkparamlimits(BatteryParamInfo parameterInfo,  float value){	
 	
 if(value < parameterInfo.minimumThreshold){
 	//printToConsole(strcat(parameterInfo.parameterName , "is less than lowerlimit \n"));
@@ -98,7 +98,7 @@ else {
 	}
 }
 
-int checkForWarnings(BatteryParameterInfo parameterInfo,  float value){	
+int checkForWarnings(BatteryParamInfo parameterInfo,  float value){	
 if(value < parameterInfo.warningLimitLow){
 	//printToConsole(strcat(parameterInfo.parameterName , "is approaching lowerlimit \n"));
 	setMessageToPrint (parameterInfo.parameterName , 3);
